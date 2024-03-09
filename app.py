@@ -1,6 +1,10 @@
 import cv2
 import mediapipe as mp
 from controller import Controller
+import webbrowser
+
+# open maps directly
+webbrowser.open('https://www.google.com/maps')
 
 cap = cv2.VideoCapture(0)
 
