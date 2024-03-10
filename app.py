@@ -9,18 +9,29 @@ webbrowser.open('https://www.google.com/maps')
 cap = cv2.VideoCapture(0)
 
 mpHands = mp.solutions.hands
-hands = mpHands.Hands()
+hands = mpHands.Hands( # add parameters to the hands module
+      max_num_hands=1, # limit the number of hands to 1 to improve performance
+      min_detection_confidence=0.75, 
+      min_tracking_confidence=0.75
+   )  
 mpDraw = mp.solutions.drawing_utils
 
-frame_skip = 3  # Skip every 3 frames. Adjust this number as needed.
-frame_counter = 0  # Frame counter
+frame_skip = 2  # Continue skipping frames as before.
+frame_counter = 0
+
+# New resolution (width, height). Adjust as needed for optimal performance.
+desired_width = 640
+desired_height = 360
 
 while True:
     success, img = cap.read()
     img = cv2.flip(img, 1)
 
+    # Resize the frame
+    img = cv2.resize(img, (desired_width, desired_height))
+
     frame_counter += 1
-    if frame_counter % frame_skip == 0:  # Process frame if it's the n-th frame
+    if frame_counter % frame_skip == 0:
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         results = hands.process(imgRGB)
 
@@ -28,6 +39,7 @@ while True:
             Controller.hand_Landmarks = results.multi_hand_landmarks[0]
             mpDraw.draw_landmarks(img, Controller.hand_Landmarks, mpHands.HAND_CONNECTIONS)
             
+            # Your gesture processing logic
             Controller.update_fingers_status()
             Controller.cursor_moving()
             Controller.detect_scrolling()
