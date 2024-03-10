@@ -67,14 +67,32 @@ class Controller:
             current_y = Controller.screen_height - threshold
 
         return (current_x,current_y)
+    
+    @staticmethod
+    def lerp(start, end, alpha):
+        """Linear interpolation between start and end by alpha."""
+        return start + (end - start) * alpha
         
+    @staticmethod
     def cursor_moving():
         point = 9
-        current_x, current_y = Controller.hand_Landmarks.landmark[point].x ,Controller.hand_Landmarks.landmark[point].y
+        current_x, current_y = Controller.hand_Landmarks.landmark[point].x, Controller.hand_Landmarks.landmark[point].y
         x, y = Controller.get_position(current_x, current_y)
+        
+        # Check if previous hand position is set, otherwise initialize it
+        if Controller.prev_hand is None:
+            Controller.prev_hand = (x, y)
+        
+        # Determine the new cursor position with smoothing
+        smooth_factor = 0.5  # Adjust this value to control the smoothing effect
+        new_x = int(Controller.lerp(Controller.prev_hand[0], x, smooth_factor))
+        new_y = int(Controller.lerp(Controller.prev_hand[1], y, smooth_factor))
+        Controller.prev_hand = (new_x, new_y)
+        
         cursor_freezed = Controller.all_fingers_up and Controller.Thump_finger_down
         if not cursor_freezed:
-            pyautogui.moveTo(x, y, duration = 0)
+            pyautogui.moveTo(new_x, new_y, duration=0)
+            print("Cursor moving")  # Debug print statement
     
     def detect_scrolling():
         scrolling_up =  Controller.little_finger_up and Controller.index_finger_down and Controller.middle_finger_down and Controller.ring_finger_down
