@@ -3,10 +3,9 @@ import mediapipe as mp
 from controller import Controller
 import webbrowser
 
+cap = cv2.VideoCapture(0)
 # open maps directly
 webbrowser.open('https://www.google.com/maps')
-
-cap = cv2.VideoCapture(0)
 
 mpHands = mp.solutions.hands
 hands = mpHands.Hands( # add parameters to the hands module
@@ -42,7 +41,6 @@ while True:
             # Your gesture processing logic
             Controller.update_fingers_status()
             Controller.cursor_moving()
-            Controller.detect_scrolling()
             Controller.detect_zoomming()
             Controller.detect_clicking()
             Controller.detect_dragging()
