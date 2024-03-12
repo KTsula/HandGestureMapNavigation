@@ -1,89 +1,88 @@
 import pyautogui
 
-
-class Controller:
+class HandController:
     prev_hand = None
     right_clicked = False
     left_clicked = False
     double_clicked = False
     dragging = False
-    hand_Landmarks = None
-    little_finger_down = None
-    little_finger_up = None
-    index_finger_down = None
-    index_finger_up = None
-    middle_finger_down = None
-    middle_finger_up = None
-    ring_finger_down = None
-    ring_finger_up = None
-    Thump_finger_down = None 
-    Thump_finger_up = None
+    hand_landmarks = None
+    pinky_down = None
+    pinky_up = None
+    index_down = None
+    index_up = None
+    middle_down = None
+    middle_up = None
+    ring_down = None
+    ring_up = None
+    thumb_down = None 
+    thumb_up = None
     all_fingers_down = None
     all_fingers_up = None
-    index_finger_within_Thumb_finger = None
-    middle_finger_within_Thumb_finger = None
-    little_finger_within_Thumb_finger = None
-    ring_finger_within_Thumb_finger = None
+    index_within_thumb = None
+    middle_within_thumb = None
+    pinky_within_thumb = None
+    ring_within_thumb = None
     screen_width, screen_height = pyautogui.size()
 
     @staticmethod
     def update_fingers_status():
-        Controller.little_finger_down = Controller.hand_Landmarks.landmark[20].y > Controller.hand_Landmarks.landmark[17].y
-        Controller.little_finger_up = Controller.hand_Landmarks.landmark[20].y < Controller.hand_Landmarks.landmark[17].y
-        Controller.index_finger_down = Controller.hand_Landmarks.landmark[8].y > Controller.hand_Landmarks.landmark[5].y
-        Controller.index_finger_up = Controller.hand_Landmarks.landmark[8].y < Controller.hand_Landmarks.landmark[5].y
-        Controller.middle_finger_down = Controller.hand_Landmarks.landmark[12].y > Controller.hand_Landmarks.landmark[9].y
-        Controller.middle_finger_up = Controller.hand_Landmarks.landmark[12].y < Controller.hand_Landmarks.landmark[9].y
-        Controller.ring_finger_down = Controller.hand_Landmarks.landmark[16].y > Controller.hand_Landmarks.landmark[13].y
-        Controller.ring_finger_up = Controller.hand_Landmarks.landmark[16].y < Controller.hand_Landmarks.landmark[13].y
-        Controller.Thump_finger_down = Controller.hand_Landmarks.landmark[4].y > Controller.hand_Landmarks.landmark[13].y
-        Controller.Thump_finger_up = Controller.hand_Landmarks.landmark[4].y < Controller.hand_Landmarks.landmark[13].y
+        HandController.pinky_down = HandController.hand_landmarks.landmark[20].y > HandController.hand_landmarks.landmark[17].y
+        HandController.pinky_up = HandController.hand_landmarks.landmark[20].y < HandController.hand_landmarks.landmark[17].y
+        HandController.index_down = HandController.hand_landmarks.landmark[8].y > HandController.hand_landmarks.landmark[5].y
+        HandController.index_up = HandController.hand_landmarks.landmark[8].y < HandController.hand_landmarks.landmark[5].y
+        HandController.middle_down = HandController.hand_landmarks.landmark[12].y > HandController.hand_landmarks.landmark[9].y
+        HandController.middle_up = HandController.hand_landmarks.landmark[12].y < HandController.hand_landmarks.landmark[9].y
+        HandController.ring_down = HandController.hand_landmarks.landmark[16].y > HandController.hand_landmarks.landmark[13].y
+        HandController.ring_up = HandController.hand_landmarks.landmark[16].y < HandController.hand_landmarks.landmark[13].y
+        HandController.thumb_down = HandController.hand_landmarks.landmark[4].y > HandController.hand_landmarks.landmark[13].y
+        HandController.thumb_up = HandController.hand_landmarks.landmark[4].y < HandController.hand_landmarks.landmark[13].y
 
-        Controller.all_fingers_down = (Controller.index_finger_down and Controller.middle_finger_down
-                                       and Controller.ring_finger_down and Controller.little_finger_down)
+        HandController.all_fingers_down = (HandController.index_down and HandController.middle_down
+                                       and HandController.ring_down and HandController.pinky_down)
 
-        Controller.all_fingers_up = (Controller.index_finger_up and Controller.middle_finger_up
-                                     and Controller.ring_finger_up and Controller.little_finger_up)
+        HandController.all_fingers_up = (HandController.index_up and HandController.middle_up
+                                     and HandController.ring_up and HandController.pinky_up)
 
-        Controller.index_finger_within_Thumb_finger = (Controller.hand_Landmarks.landmark[4].y <
-                                                       Controller.hand_Landmarks.landmark[8].y <
-                                                       Controller.hand_Landmarks.landmark[2].y)
+        HandController.index_within_thumb = (HandController.hand_landmarks.landmark[4].y <
+                                                       HandController.hand_landmarks.landmark[8].y <
+                                                       HandController.hand_landmarks.landmark[2].y)
 
-        Controller.middle_finger_within_Thumb_finger = (Controller.hand_Landmarks.landmark[4].y <
-                                                        Controller.hand_Landmarks.landmark[12].y <
-                                                        Controller.hand_Landmarks.landmark[2].y)
+        HandController.middle_within_thumb = (HandController.hand_landmarks.landmark[4].y <
+                                                        HandController.hand_landmarks.landmark[12].y <
+                                                        HandController.hand_landmarks.landmark[2].y)
 
-        Controller.little_finger_within_Thumb_finger = (Controller.hand_Landmarks.landmark[4].y <
-                                                        Controller.hand_Landmarks.landmark[20].y <
-                                                        Controller.hand_Landmarks.landmark[2].y)
+        HandController.pinky_within_thumb = (HandController.hand_landmarks.landmark[4].y <
+                                                        HandController.hand_landmarks.landmark[20].y <
+                                                        HandController.hand_landmarks.landmark[2].y)
 
-        Controller.ring_finger_within_Thumb_finger = (Controller.hand_Landmarks.landmark[4].y <
-                                                      Controller.hand_Landmarks.landmark[16].y <
-                                                      Controller.hand_Landmarks.landmark[2].y)
+        HandController.ring_within_thumb = (HandController.hand_landmarks.landmark[4].y <
+                                                      HandController.hand_landmarks.landmark[16].y <
+                                                      HandController.hand_landmarks.landmark[2].y)
 
     @staticmethod
     def get_position(hand_x_position, hand_y_position):
         old_x, old_y = pyautogui.position()
-        current_x = int(hand_x_position * Controller.screen_width)
-        current_y = int(hand_y_position * Controller.screen_height)
+        current_x = int(hand_x_position * HandController.screen_width)
+        current_y = int(hand_y_position * HandController.screen_height)
 
         ratio = 1
-        Controller.prev_hand = (current_x, current_y) if Controller.prev_hand is None else Controller.prev_hand
-        delta_x = current_x - Controller.prev_hand[0]
-        delta_y = current_y - Controller.prev_hand[1]
+        HandController.prev_hand = (current_x, current_y) if HandController.prev_hand is None else HandController.prev_hand
+        delta_x = current_x - HandController.prev_hand[0]
+        delta_y = current_y - HandController.prev_hand[1]
         
-        Controller.prev_hand = [current_x, current_y]
+        HandController.prev_hand = [current_x, current_y]
         current_x , current_y = old_x + delta_x * ratio, old_y + delta_y * ratio
 
         threshold = 5
         if current_x < threshold:
             current_x = threshold
-        elif current_x > Controller.screen_width - threshold:
-            current_x = Controller.screen_width - threshold
+        elif current_x > HandController.screen_width - threshold:
+            current_x = HandController.screen_width - threshold
         if current_y < threshold:
             current_y = threshold
-        elif current_y > Controller.screen_height - threshold:
-            current_y = Controller.screen_height - threshold
+        elif current_y > HandController.screen_height - threshold:
+            current_y = HandController.screen_height - threshold
 
         return (current_x,current_y)
     
@@ -95,31 +94,31 @@ class Controller:
     @staticmethod
     def cursor_moving():
         point = 9
-        current_x, current_y = Controller.hand_Landmarks.landmark[point].x, Controller.hand_Landmarks.landmark[point].y
-        x, y = Controller.get_position(current_x, current_y)
+        current_x, current_y = HandController.hand_landmarks.landmark[point].x, HandController.hand_landmarks.landmark[point].y
+        x, y = HandController.get_position(current_x, current_y)
         
         # Check if previous hand position is set, otherwise initialize it
-        if Controller.prev_hand is None:
-            Controller.prev_hand = (x, y)
+        if HandController.prev_hand is None:
+            HandController.prev_hand = (x, y)
         
         # Determine the new cursor position with smoothing
         smooth_factor = 0.5  # Adjust this value to control the smoothing effect
-        new_x = int(Controller.lerp(Controller.prev_hand[0], x, smooth_factor))
-        new_y = int(Controller.lerp(Controller.prev_hand[1], y, smooth_factor))
-        Controller.prev_hand = (new_x, new_y)
+        new_x = int(HandController.lerp(HandController.prev_hand[0], x, smooth_factor))
+        new_y = int(HandController.lerp(HandController.prev_hand[1], y, smooth_factor))
+        HandController.prev_hand = (new_x, new_y)
         
-        cursor_freezed = Controller.all_fingers_up and Controller.Thump_finger_down
+        cursor_freezed = HandController.all_fingers_up and HandController.thumb_down
         if not cursor_freezed:
             pyautogui.moveTo(new_x, new_y, duration=0)
             print("Cursor moving")  # Debug print statement
 
     @staticmethod
     def detect_zoomming():
-        zoomming = (Controller.index_finger_up and Controller.middle_finger_up and Controller.ring_finger_down
-                    and Controller.little_finger_down)
+        zoomming = (HandController.index_up and HandController.middle_up and HandController.ring_down
+                    and HandController.pinky_down)
         window = .05
         index_touches_middle = (
-                abs(Controller.hand_Landmarks.landmark[8].x - Controller.hand_Landmarks.landmark[12].x) <= window)
+                abs(HandController.hand_landmarks.landmark[8].x - HandController.hand_landmarks.landmark[12].x) <= window)
         zoomming_out = zoomming and index_touches_middle
         zoomming_in = zoomming and not index_touches_middle
         
@@ -137,48 +136,48 @@ class Controller:
 
     @staticmethod
     def detect_clicking():
-        left_click_condition = (Controller.index_finger_within_Thumb_finger and Controller.middle_finger_up
-                                and Controller.ring_finger_up and Controller.little_finger_up
-                                and not Controller.middle_finger_within_Thumb_finger
-                                and not Controller.ring_finger_within_Thumb_finger
-                                and not Controller.little_finger_within_Thumb_finger)
-        if not Controller.left_clicked and left_click_condition:
+        left_click_condition = (HandController.index_within_thumb and HandController.middle_up
+                        and HandController.ring_up and HandController.pinky_up
+                        and not HandController.middle_within_thumb
+                        and not HandController.ring_within_thumb
+                        and not HandController.pinky_within_thumb)
+        if not HandController.left_clicked and left_click_condition:
             pyautogui.click()
-            Controller.left_clicked = True
+            HandController.left_clicked = True
             print("Left Clicking")
-        elif not Controller.index_finger_within_Thumb_finger:
-            Controller.left_clicked = False
+        elif not HandController.index_within_thumb:
+            HandController.left_clicked = False
 
-        right_click_condition = (Controller.middle_finger_within_Thumb_finger and Controller.index_finger_up
-                                 and Controller.ring_finger_up and Controller.little_finger_up
-                                 and not Controller.index_finger_within_Thumb_finger
-                                 and not Controller.ring_finger_within_Thumb_finger
-                                 and not Controller.little_finger_within_Thumb_finger)
-        if not Controller.right_clicked and right_click_condition:
+        right_click_condition = (HandController.middle_within_thumb and HandController.index_up
+                                 and HandController.ring_up and HandController.pinky_up
+                                 and not HandController.index_within_thumb
+                                 and not HandController.ring_within_thumb
+                                 and not HandController.pinky_within_thumb)
+        if not HandController.right_clicked and right_click_condition:
             pyautogui.rightClick()
-            Controller.right_clicked = True
+            HandController.right_clicked = True
             print("Right Clicking")
-        elif not Controller.middle_finger_within_Thumb_finger:
-            Controller.right_clicked = False
+        elif not HandController.middle_within_thumb:
+            HandController.right_clicked = False
 
-        double_click_condition = (Controller.ring_finger_within_Thumb_finger and Controller.index_finger_up
-                                  and Controller.middle_finger_up and Controller.little_finger_up
-                                  and not Controller.index_finger_within_Thumb_finger
-                                  and not Controller.middle_finger_within_Thumb_finger
-                                  and not Controller.little_finger_within_Thumb_finger)
-        if not Controller.double_clicked and double_click_condition:
+        double_click_condition = (HandController.ring_within_thumb and HandController.index_up
+                                  and HandController.middle_up and HandController.pinky_up
+                                  and not HandController.index_within_thumb
+                                  and not HandController.middle_within_thumb
+                                  and not HandController.pinky_within_thumb)
+        if not HandController.double_clicked and double_click_condition:
             pyautogui.doubleClick()
-            Controller.double_clicked = True
+            HandController.double_clicked = True
             print("Double Clicking")
-        elif not Controller.ring_finger_within_Thumb_finger:
-            Controller.double_clicked = False
-
+        elif not HandController.ring_within_thumb:
+            HandController.double_clicked = False
+            
     @staticmethod
     def detect_dragging():
-        if not Controller.dragging and Controller.all_fingers_down:
+        if not HandController.dragging and HandController.all_fingers_down:
             pyautogui.mouseDown(button="left")
-            Controller.dragging = True
+            HandController.dragging = True
             print("Dragging")
-        elif not Controller.all_fingers_down:
+        elif not HandController.all_fingers_down:
             pyautogui.mouseUp(button="left")
-            Controller.dragging = False
+            HandController.dragging = False
