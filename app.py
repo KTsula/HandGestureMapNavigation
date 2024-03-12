@@ -5,7 +5,7 @@ import webbrowser
 
 cap = cv2.VideoCapture(0)
 # open maps directly
-webbrowser.open('https://www.google.com/maps')
+webbrowser.open('https://www.google.com/maps/@?api=1&map_action=map&basemap=satellite')
 
 mpHands = mp.solutions.hands
 hands = mpHands.Hands( # add parameters to the hands module
