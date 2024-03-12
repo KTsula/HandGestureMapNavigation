@@ -10,15 +10,15 @@ webbrowser.open('https://www.google.com/maps')
 mpHands = mp.solutions.hands
 hands = mpHands.Hands( # add parameters to the hands module
       max_num_hands=1, # limit the number of hands to 1 to improve performance
-      min_detection_confidence=0.75, 
-      min_tracking_confidence=0.75
+      min_detection_confidence=0.80, 
+      min_tracking_confidence=0.80
    )  
 mpDraw = mp.solutions.drawing_utils
 
 frame_skip = 2  # Continue skipping frames as before.
 frame_counter = 0
 
-# New resolution (width, height). Adjust as needed for optimal performance.
+# New resolution (width, height)
 desired_width = 640
 desired_height = 360
 
@@ -48,12 +48,4 @@ while True:
     cv2.imshow('Hand Tracker', img)
     if cv2.waitKey(5) & 0xFF == 27:
         break
-
-# DragDrop
-# rightclick
-# leftclick
-# doubleclick
-# scroll up
-# scroll down
-# Zoom in 
-# Zoom out
+    
