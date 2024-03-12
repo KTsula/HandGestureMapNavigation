@@ -3,9 +3,10 @@ from controller import HandController
 from hand_detector import HandDetector
 import webbrowser
 
+
 def main():
     cap = cv2.VideoCapture(0)
-    webbrowser.open('https://www.google.com/maps')
+    webbrowser.open('https://www.google.com/maps/@?api=1&map_action=map&basemap=satellite')
 
     hand_detector = HandDetector()
 
