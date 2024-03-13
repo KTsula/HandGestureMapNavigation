@@ -39,8 +39,6 @@ After installing the required libraries, run the `app.py` file in a Python envir
 - **Double Click**: Raise your index and middle finger while keeping the other fingers closed.
 - **Freeze Cursor**: Close your thumb and raise all other fingers together to freeze the cursor.
 
-(Note: Click on the images for a larger view)
-
 ## How it Works
 
 The application uses the Mediapipe library for real-time hand tracking and the PyAutoGUI library for translating these gestures into map navigation commands.
